@@ -56,13 +56,11 @@ h1 {
 .select-city {
   padding: 0px 0px 0px 5px;
   border: 2px solid #aaaaaa;
-  width: 140px;
 }
 
 .select-date {
   padding: 0px 0px 0px 5px;
   border: 2px solid #aaaaaa;
-  width: 190px;
 }
 
 .submit {
@@ -79,14 +77,6 @@ h1 {
 
 .submit:active {
   border: whitesmoke;
-}
-
-.search{
-  width: 100px;
-}
-
-.current-location{
-  width: 200px;
 }
 
 .selection.city {

@@ -82,7 +82,7 @@ document.querySelector("#fahrenheit").addEventListener("click", changeInFahrenhe
 
 //Changing temperature
 function changeWeatherDetails(cityWeather) {
-  temperature.innerHTML = cityWeather.data.main.temp;
+  temperature.innerHTML = Math.round(cityWeather.data.main.temp);
   //precipitation.innerHTML = 
   humidity.innerHTML = cityWeather.data.main.humidity;
   windSpeed.innerHTML = cityWeather.data.wind.speed;
@@ -100,7 +100,7 @@ document.querySelector("#search").addEventListener("click", getCityWeather);
 //Getting current location weather
 function showCurrentLocationWeather(currentWeather) {
   selectionCity.innerHTML = currentWeather.data.name;
-  temperature.innerHTML = currentWeather.data.main.temp;
+  temperature.innerHTML = Math.round(currentWeather.data.main.temp);
   //precipitation = currentWeather.
   humidity.innerHTML = currentWeather.data.main.humidity;
   windSpeed.innerHTML = currentWeather.data.wind.speed; 
