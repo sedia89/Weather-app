@@ -80,8 +80,10 @@ function changeInFahrenheit(event) {
 document.querySelector("#celsius").addEventListener("click", changeInCelsius);
 document.querySelector("#fahrenheit").addEventListener("click", changeInFahrenheit);
 
-//Changing temperature
 function changeWeatherDetails(cityWeather) {
+//Getting the weather by entering a city
+function getWeather(cityWeather) {
+  selectionCity.innerHTML = cityWeather.data.name;
   temperature.innerHTML = Math.round(cityWeather.data.main.temp);
   //precipitation.innerHTML = 
   humidity.innerHTML = cityWeather.data.main.humidity;
@@ -90,20 +92,17 @@ function changeWeatherDetails(cityWeather) {
 
 let apiKey = "e8969904bbe7bee3107bc2409d6f2662";
 
-function getCityWeather() {
+function getCity() {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEntered.value}&appid=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(changeWeatherDetails);
+    axios.get(apiUrl).then(getWeather);
 }
 
-document.querySelector("#search").addEventListener("click", getCityWeather);
+document.querySelector("#search").addEventListener("click", getCity);
 
 //Getting current location weather
-function showCurrentLocationWeather(currentWeather) {
-  selectionCity.innerHTML = currentWeather.data.name;
-  temperature.innerHTML = Math.round(currentWeather.data.main.temp);
-  //precipitation = currentWeather.
-  humidity.innerHTML = currentWeather.data.main.humidity;
-  windSpeed.innerHTML = currentWeather.data.wind.speed; 
+function changeWithCurrentCity(currentCity) {
+  selectionCity.innerHTML = currentCity.data.name;
+  getWeather(currentCity);
 }
 
 function getCurrentLocationWeather(position) {
@@ -111,7 +110,7 @@ function getCurrentLocationWeather(position) {
   let lon = position.coords.longitude;
   let apiUrl =`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
   console.log(apiUrl);
-  axios.get(apiUrl).then(showCurrentLocationWeather);
+  axios.get(apiUrl).then(changeWithCurrentCity);
 }
 
 function getCurrentLocation() {
@@ -119,3 +118,46 @@ function getCurrentLocation() {
 }
 
 document.querySelector("#current-location").addEventListener("click", getCurrentLocation);
+
+//Getting the weather by clicking on one of the city on the top
+function getRomeWeather() {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Rome&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getWeather);
+}
+
+document.querySelector("#city-Rome").addEventListener("click", getRomeWeather);
+
+function getLondonWeather() {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=London&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getWeather);
+}
+
+document.querySelector("#city-Rome").addEventListener("click", getLondonWeather);
+
+function getTokyoWeather() {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Tokyo&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getWeather);
+}
+
+document.querySelector("#city-Rome").addEventListener("click", getTokyoWeather);
+
+function getNewYorkWeather() {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=New York&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getWeather);
+}
+
+document.querySelector("#city-Rome").addEventListener("click", getNewYorkWeather);
+
+function getSidneyWeather() {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Sidney&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getWeather);
+}
+
+document.querySelector("#city-Rome").addEventListener("click", getSidneyWeather);
+
+function getBuenosAiresWeather() {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Buenos Aires&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getWeather);
+}
+
+document.querySelector("#city-Rome").addEventListener("click", getBuenosAiresWeather);

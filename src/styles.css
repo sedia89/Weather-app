@@ -42,11 +42,15 @@ h1 {
   text-align: center;
 }
 
+a {
+  color: black;
+}
+
 .select-city,
 .select-date,
 .submit {
   border-radius: 10px;
-  color: #aaaaa;
+  color: #aaaaaa;
   margin: 30px 0px 10px 0px;
   font-size:14pt;
   height: 40px;
