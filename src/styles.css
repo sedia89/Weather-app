@@ -1,0 +1,110 @@
+body {
+  font-family: "Quicksand", sans-serif;
+}
+
+.card {
+  position: static;
+  background-color: #f6f6f6;
+  border-radius: 10px;
+}
+
+.external {
+  position: fixed;
+  width: 1120px;
+  margin: 10px 10px 10px 10px;
+  background-color: #ffe2e2;
+}
+
+.left {
+  font-size: 15pt;
+  padding: 30px 40px 40px 40px;
+  margin: 30px 0px 30px 30px;
+}
+
+.left-icon {
+  display: block;
+  margin: 0 auto;
+}
+
+.right {
+  font-size: 15pt;
+  padding: 40px 40px 40px 40px;
+  margin: 30px 30px 30px 0px;
+  height: 490px;
+}
+
+h1 {
+  padding: 0px 0px 40px 0px;
+  font-size: 46px;
+}
+
+.main-cities {
+  text-align: center;
+}
+
+.select-city,
+.select-date,
+.submit {
+  border-radius: 10px;
+  color: #aaaaaa;
+  margin: 30px 0px 10px 0px;
+  font-size:14pt;
+  height: 40px;
+  outline: 0;
+}
+
+.select-city {
+  padding: 0px 0px 0px 5px;
+  border: 2px solid #aaaaaa;
+  width: 140px;
+}
+
+.select-date {
+  padding: 0px 0px 0px 5px;
+  border: 2px solid #aaaaaa;
+  width: 190px;
+}
+
+.submit {
+  background: #ffe2e2;
+  border: 2pt solid #ffc7c7;
+  transition: all 200ms ease-in-out;
+}
+
+.submit:hover {
+  background-color: #aaaaaa;
+  border: 2pt solid #aaaaaa;
+  color: whitesmoke;
+}
+
+.submit:active {
+  border: whitesmoke;
+}
+
+.search{
+  width: 100px;
+}
+
+.current-location{
+  width: 200px;
+}
+
+.selection.city {
+  font-size: 23pt;
+}
+
+.units {
+  position:relative;
+  top: -14px;
+  font-size: 14pt;
+}
+
+.temperature {
+  font-size: 32pt;
+}
+
+.footer {
+  font-size: 12pt;
+  background-color: #aaaaaa;
+  bottom: 0;
+}
