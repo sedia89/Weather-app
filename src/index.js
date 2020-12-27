@@ -80,7 +80,6 @@ function changeInFahrenheit(event) {
 document.querySelector("#celsius").addEventListener("click", changeInCelsius);
 document.querySelector("#fahrenheit").addEventListener("click", changeInFahrenheit);
 
-function changeWeatherDetails(cityWeather) {
 //Getting the weather by entering a city
 function getWeather(cityWeather) {
   selectionCity.innerHTML = cityWeather.data.name;
