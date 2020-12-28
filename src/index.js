@@ -131,32 +131,32 @@ function getLondonWeather() {
   axios.get(apiUrl).then(getWeather);
 }
 
-document.querySelector("#city-Rome").addEventListener("click", getLondonWeather);
+document.querySelector("#city-London").addEventListener("click", getLondonWeather);
 
 function getTokyoWeather() {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Tokyo&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(getWeather);
 }
 
-document.querySelector("#city-Rome").addEventListener("click", getTokyoWeather);
+document.querySelector("#city-Tokyo").addEventListener("click", getTokyoWeather);
 
 function getNewYorkWeather() {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=New York&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(getWeather);
 }
 
-document.querySelector("#city-Rome").addEventListener("click", getNewYorkWeather);
+document.querySelector("#city-NewYork").addEventListener("click", getNewYorkWeather);
 
 function getSidneyWeather() {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Sidney&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(getWeather);
 }
 
-document.querySelector("#city-Rome").addEventListener("click", getSidneyWeather);
+document.querySelector("#city-Sidney").addEventListener("click", getSidneyWeather);
 
 function getBuenosAiresWeather() {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Buenos Aires&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(getWeather);
 }
 
-document.querySelector("#city-Rome").addEventListener("click", getBuenosAiresWeather);
+document.querySelector("#city-BuenosAires").addEventListener("click", getBuenosAiresWeather);
