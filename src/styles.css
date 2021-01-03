@@ -87,14 +87,29 @@ a {
   font-size: 23pt;
 }
 
+.icon {
+  background-color: white;
+  border: 2pt solid #ffc7c7;
+  border-radius: 100%;
+}
+
 .units {
   position:relative;
   top: -14px;
   font-size: 14pt;
 }
 
+.active {
+  color: #aaaaaa;
+}
+
 .temperature {
   font-size: 32pt;
+}
+
+.description {
+  font-style: italic;
+  text-transform: capitalize;
 }
 
 .footer {
