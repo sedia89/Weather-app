@@ -16,76 +16,8 @@
         <div class="row">
           <div class="col-4">
             <div class="card left">
-              <div class="row align-items-center">
-                <div class="col-4 text-left">
-                  Sat
-                </div>
-                <div class="col-2 text-center">
-                  <img class="left-icon" src="src/Rainy or storm.png" alt="Rainy or storm" width="50"/>
-                </div>
-                <div class="col-6 text-right">
-                  18°-23°
-                </div>            
-              </div>
-              <br/>                  
-              <div class="row align-items-center">
-                <div class="col-4 text-left">
-                  Sun
-                </div>
-                <div class="col-2 text-center">
-                  <img class="left-icon" src="src/Partially cloudy.png" alt="Rainy or storm" width="50"/>
-                </div>
-                <div class="col-6 text-right">
-                  16°-20°
-                </div>
-              </div>
-              <br/>
-              <div class="row align-items-center">
-                <div class="col-4 text-left">
-                  Mon
-                </div>
-                <div class="col-2 text-center">
-                  <img class="left-icon" src="src/Sunny.png" alt="Rainy or storm" width="50"/>
-                </div>
-                <div class="col-6 text-right">
-                  15°-20°
-                </div>
-              </div>
-              <br/>
-              <div class="row align-items-center">
-                <div class="col-4 text-left">
-                  Tue
-                </div>
-                <div class="col-2 text-center">
-                  <img class="left-icon" src="src/Cloudy.png" alt="Rainy or storm" width="50"/>
-                </div>
-                <div class="col-6 text-right">
-                  15°-22°
-                </div>
-              </div>
-              <br/>
-              <div class="row align-items-center">
-                <div class="col-4 text-left">
-                  Wed
-                </div>
-                <div class="col-2 text-center">
-                  <img class="left-icon" src="src/Sunny.png" alt="Rainy or storm" width="50"/>
-                </div>
-                <div class="col-6 text-right">
-                  13°-18°
-                </div>
-              </div>
-              <br/>          
-              <div class="row align-items-center">
-                <div class="col-4 text-left">
-                  Thu
-                </div>
-                <div class="col-2 text-center">
-                  <img class="left-icon" src="src/Sunny.png" alt="Rainy or storm" width="50"/>
-                </div>
-                <div class="col-6 text-right">
-                  13°-17°
-                </div>
+              <em>You will feel like</em>
+              <div id="forecast">
               </div>
             </div>
           </div>
@@ -137,22 +69,19 @@
                 <button class="btn btn-outline-secondary submit" type="button" id="current-location">Current Location</button>
               </div>
               <hr/>
-              <br/>
               <div class="row align-items-center">
-                <div class="col-md-auto">
-                  <span class="selection city">
-                  </span>
+                <div class="col-md-3">
+                  <span class="selection city"></span>
                   <br/>
                   <span class="selection details" id="selection-details-1">
-                    Friday, 08:30 p.m.
+                    </br>
                   </span>
-                  <br/>
                   <span class="selection details" id="selection-details-2">
-                    20th November
                   </span>
                 </div>
-                <div class="col-md-auto text-center">
+                <div class="col-md-5 text-center">
                   <img class="icon" id="icon">
+                  <span>&nbsp;</span>
                   <span class="selection temperature" id="temperature">
                   </span>
                   <span class="units">
@@ -169,18 +98,19 @@
                     </a>
                   </span>
                 </div>
-                <div class="col-md-auto">
-                  <span class="selection otherInfo">
-                    <span class="description" id="description"></span>
-                    <br/>
+                <div class="col-md-4">
+                  <span class="description" id="description"></span>
+                </br>
+                  <span class="information">
+                    Feels like:
+                    <span id="feels-like"></span>
+                    <span id="unit">°C</span>
+                    </br>
                     Humidity: 
-                    <span id="humidity">
-                    </span>
-                    <br/>
-                    Wind Speed: 
-                    <span id="windSpeed">
-                    </span>
-                    <br/>
+                    <span id="humidity"></span>
+                    </br>
+                    Wind speed: 
+                    <span id="windSpeed"></span>
                   </span>
                 </div>
               </div>

@@ -1,55 +1,53 @@
 //Formatting date
-let currentDate = new Date();
-
-let days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
-];
+function formatDate(timestamp) {
+  let date = new Date(timestamp);
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ];  
+  let months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"  
+  ];
   
-let months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"  
-];
-
-let currentDayText = days[currentDate.getDay()];
-let currentHours = currentDate.getUTCHours();
-
-if (currentHours < 10) {
-  currentHours = `0${currentHours}`;
+  let dayText = days[date.getDay()];
+  let day = date.getDate();
+  let month = months[date.getMonth()];
+  return `${day} ${month}, ${dayText}`;
 }
 
-let currentMinutes = currentDate.getUTCMinutes();
-
-if (currentMinutes < 10) {
-  currentMinutes = `0${currentMinutes}`;
+function formatHours(timestamp) {
+  let date = new Date(timestamp);
+  let hours = date.getHours();
+  
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  
+  let minutes = date.getMinutes();
+  
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  return `${hours}:${minutes}`;
 }
-
-let currentDay = currentDate.getDate();
-let currentMonth = months[currentDate.getMonth()];
-
-let selectionDetails1 = document.querySelector("#selection-details-1");
-selectionDetails1.innerHTML = `${currentDayText}, ${currentHours}:${currentMinutes}`;
-
-let selectionDetails2 = document.querySelector("#selection-details-2");
-selectionDetails2.innerHTML = `${currentDay} ${currentMonth}`;
 
 //Update Date
-let apiKey = "e8969904bbe7bee3107bc2409d6f2662";
 
 //Default data (current)
 function changeWithCurrentCity(currentCity) {
@@ -57,69 +55,58 @@ function changeWithCurrentCity(currentCity) {
   getWeather(currentCity);
 }
 
+let apiKey = "e8969904bbe7bee3107bc2409d6f2662";
 let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Rome&appid=${apiKey}&units=metric`;
 axios.get(apiUrl).then(changeWithCurrentCity);
 
-//Changing city
+//Getting the weather by entering a city
 let cityEntered = document.querySelector(".select-city");
 let selectionCity = document.querySelector(".selection.city");
+let temperatureValue = null;
+let feelsLikeValue = null;
 
-function changeCity(){
-  if (cityEntered.value !== "") {
-    selectionCity.innerHTML = cityEntered.value;
-  } else {
-    cityEntered.value = "Rimini";
-  }
-}
-
-document.querySelector("#search").addEventListener("click", changeCity)
-
-//Changing unit of measure
-let temperature = document.querySelector("#temperature")
-
-function changeInCelsius(event) {
-  event.preventDefault();
-  fahrenheit.classList.remove("active");
-  celsius.classList.add("active");
-  let temperatureCelsius = Math.round((Number(temperature.innerHTML) - 32) * 5/9);
-  temperature.innerHTML = `${temperatureCelsius}`;
-}
-
-function changeInFahrenheit(event) {
-  event.preventDefault();
-  fahrenheit.classList.add("active");
-  celsius.classList.remove("active");
-  let temperatureFahrenheit = Math.round((Number(temperature.innerHTML) * 9/5) + 32);
-  temperature.innerHTML = `${temperatureFahrenheit}`
-}
-
-celsius.addEventListener("click", changeInCelsius);
-fahrenheit.addEventListener("click", changeInFahrenheit);
-
-//Getting the weather by entering a city
 function getWeather(cityWeather) {
   selectionCity.innerHTML = cityWeather.data.name;
-  temperature.innerHTML = Math.round(cityWeather.data.main.temp);
+  
+  let dateSelected = document.querySelector("#selection-details-1");
+  dateSelected.innerHTML = formatDate(cityWeather.data.dt * 1000);
+
+  let hoursSelected = document.querySelector("#selection-details-2");
+  hoursSelected.innerHTML = formatHours(cityWeather.data.dt * 1000);
+  
+  temperatureValue = cityWeather.data.main.temp;
+  temperature.innerHTML = Math.round(temperatureValue);
   let weatherDescription = document.querySelector("#description");
   weatherDescription.innerHTML = cityWeather.data.weather[0].description;
   humidity.innerHTML = `${cityWeather.data.main.humidity}%`;
   windSpeed.innerHTML = `${cityWeather.data.wind.speed} km/h`;
+  feelsLikeValue = cityWeather.data.main.feels_like;
+  feelsLike.innerHTML = Math.round(feelsLikeValue);
   icon.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${cityWeather.data.weather[0].icon}@2x.png`
   );
   icon.setAttribute("alt", cityWeather.data.weather[0].description);
+  apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather.data.name}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getForecast);
 }
 
 function getCity() {
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEntered.value}&appid=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(getWeather);
+  event.preventDefault();
+  if (cityEntered.value !== "") {
+    selectionCity.innerHTML = cityEntered.value;
+  } else {
+    cityEntered.value = "Rome";
+  }
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEntered.value}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getWeather);
 }
 
 document.querySelector("#search").addEventListener("click", getCity);
 
 //Getting current location weather
 function changeWithCurrentCity(currentCity) {
+  event.preventDefault();
   selectionCity.innerHTML = currentCity.data.name;
   getWeather(currentCity);
 }
@@ -136,6 +123,29 @@ function getCurrentLocation() {
 }
 
 document.querySelector("#current-location").addEventListener("click", getCurrentLocation);
+
+//Getting the forecast
+function getForecast(city) {
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = null;
+
+  for (let i=0; i<5; i++){
+    forecastElement.innerHTML += `
+                  <div class="row align-items-center">
+                  <div class="col-4 text-left">
+                    ${formatHours(city.data.list[i].dt * 1000)}
+                  </div>
+                  <div class="col-2 text-center">
+                    <img class="left-icon" src= "http://openweathermap.org/img/wn/${city.data.list[i].weather[0].icon}@2x.png" alt=${city.data.list[i].weather[0].description} width="50"/>
+                  </div>
+                  <div class="col-6 text-right">
+                    ${Math.round(city.data.list[i].main.feels_like)} °C</span>
+                  </div>            
+                </div>
+                <br/>                  
+    `
+  }
+}
 
 //Getting the weather by clicking on one of the city on the top
 function getRomeWeather() {
@@ -179,3 +189,31 @@ function getBuenosAiresWeather() {
 }
 
 document.querySelector("#city-BuenosAires").addEventListener("click", getBuenosAiresWeather);
+
+//Changing unit of measure
+let temperature = document.querySelector("#temperature")
+let feelsLike = document.querySelector("#feels-like");
+let unit = document.querySelector("#unit");
+
+function changeInCelsius(event) {
+  event.preventDefault();
+  fahrenheit.classList.remove("active");
+  celsius.classList.add("active");
+  temperature.innerHTML = Math.round(temperatureValue);
+  let feelsLikeCelsius = Math.round((Number(feelsLike.innerHTML) - 32) * 5/9);
+  feelsLike.innerHTML = Math.round(feelsLikeValue);
+}
+
+function changeInFahrenheit(event) {
+  event.preventDefault();
+  fahrenheit.classList.add("active");
+  celsius.classList.remove("active");
+  let temperatureFahrenheit = Math.round((Number(temperatureValue) * 9/5) + 32);
+  temperature.innerHTML = `${temperatureFahrenheit}`
+  let feelsLikeFahrenheit = Math.round((Number(feelsLikeValue) * 9/5) + 32);
+  feelsLike.innerHTML = `${feelsLikeFahrenheit}`;
+  unit.innerHTML = "°F";
+}
+
+celsius.addEventListener("click", changeInCelsius);
+fahrenheit.addEventListener("click", changeInFahrenheit);
