@@ -1,6 +1,7 @@
 //Formatting date
 function formatDate(timestamp) {
   let date = new Date(timestamp);
+  
   let days = [
     "Sunday",
     "Monday",
@@ -27,13 +28,31 @@ function formatDate(timestamp) {
   
   let dayText = days[date.getDay()];
   let day = date.getDate();
+  console.log(day)
   let month = months[date.getMonth()];
-  return `${day} ${month}, ${dayText}`;
+  let formattedDate = `${day} ${month}, ${dayText}`;
+  let dateSelected = document.querySelector("#selection-details-1");
+  console.log(formattedDate);
+  dateSelected.innerHTML = formattedDate;
 }
 
-function formatHours(timestamp) {
+function formatHours(timestamp, timezone) {
   let date = new Date(timestamp);
-  let hours = date.getHours();
+  let timestampFixDate = timestamp;
+
+  let hours = date.getUTCHours() + timezone;
+  console.log(hours)
+
+  if(hours >= 24) {
+    hours = hours - 24;
+    timestampFixDate = timestampFixDate + 1000*60*60*24;
+    console.log(timestampFixDate)
+  }
+
+  if(hours <= 0) {
+    hours = 24 - hours;
+    timestampFixDate = timestampFixDate - 1000*60*60*24;
+  }
   
   if (hours < 10) {
     hours = `0${hours}`;
@@ -44,6 +63,10 @@ function formatHours(timestamp) {
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
+  
+  console.log(timestampFixDate);
+  formatDate(timestampFixDate);
+  
   return `${hours}:${minutes}`;
 }
 
@@ -56,7 +79,7 @@ function changeWithCurrentCity(currentCity) {
 }
 
 let apiKey = "e8969904bbe7bee3107bc2409d6f2662";
-let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Rome&appid=${apiKey}&units=metric`;
+let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Milan&appid=${apiKey}&units=metric`;
 axios.get(apiUrl).then(changeWithCurrentCity);
 
 //Getting the weather by entering a city
@@ -67,12 +90,13 @@ let feelsLikeValue = null;
 
 function getWeather(cityWeather) {
   selectionCity.innerHTML = cityWeather.data.name;
-  
-  let dateSelected = document.querySelector("#selection-details-1");
-  dateSelected.innerHTML = formatDate(cityWeather.data.dt * 1000);
+
+  apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather.data.name}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getForecast);
 
   let hoursSelected = document.querySelector("#selection-details-2");
-  hoursSelected.innerHTML = formatHours(cityWeather.data.dt * 1000);
+  hoursSelected.innerHTML = formatHours(cityWeather.data.dt * 1000, cityWeather.data.timezone / 3600);
+  console.log(cityWeather.data.dt*1000)
   
   temperatureValue = cityWeather.data.main.temp;
   temperature.innerHTML = Math.round(temperatureValue);
@@ -87,8 +111,9 @@ function getWeather(cityWeather) {
     `http://openweathermap.org/img/wn/${cityWeather.data.weather[0].icon}@2x.png`
   );
   icon.setAttribute("alt", cityWeather.data.weather[0].description);
-  apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather.data.name}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(getForecast);
+  fahrenheit.classList.remove("active");
+  celsius.classList.add("active");
+  unit.innerHTML = "°C";
 }
 
 function getCity() {
@@ -96,10 +121,11 @@ function getCity() {
   if (cityEntered.value !== "") {
     selectionCity.innerHTML = cityEntered.value;
   } else {
-    cityEntered.value = "Rome";
+    cityEntered.value = "Milan";
   }
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEntered.value}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(getWeather);
+  cityEntered.value = null;
 }
 
 document.querySelector("#search").addEventListener("click", getCity);
@@ -129,11 +155,12 @@ function getForecast(city) {
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = null;
 
-  for (let i=0; i<5; i++){
+  for (let i=1; i<6; i++){
+
     forecastElement.innerHTML += `
                   <div class="row align-items-center">
                   <div class="col-4 text-left">
-                    ${formatHours(city.data.list[i].dt * 1000)}
+                    ${formatHours(city.data.list[i].dt * 1000, city.data.city.timezone / 3600)}
                   </div>
                   <div class="col-2 text-center">
                     <img class="left-icon" src= "http://openweathermap.org/img/wn/${city.data.list[i].weather[0].icon}@2x.png" alt=${city.data.list[i].weather[0].description} width="50"/>
@@ -145,15 +172,18 @@ function getForecast(city) {
                 <br/>                  
     `
   }
+
+  formatHours(city.data.list[0].dt * 1000, city.data.city.timezone / 3600);
+
 }
 
 //Getting the weather by clicking on one of the city on the top
-function getRomeWeather() {
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Rome&appid=${apiKey}&units=metric`;
+function getMilanWeather() {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Milan&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(getWeather);
 }
 
-document.querySelector("#city-Rome").addEventListener("click", getRomeWeather);
+document.querySelector("#city-Milan").addEventListener("click", getMilanWeather);
 
 function getLondonWeather() {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=London&appid=${apiKey}&units=metric`;
@@ -202,6 +232,7 @@ function changeInCelsius(event) {
   temperature.innerHTML = Math.round(temperatureValue);
   let feelsLikeCelsius = Math.round((Number(feelsLike.innerHTML) - 32) * 5/9);
   feelsLike.innerHTML = Math.round(feelsLikeValue);
+  unit.innerHTML = "°C";
 }
 
 function changeInFahrenheit(event) {
