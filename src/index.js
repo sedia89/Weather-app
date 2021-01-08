@@ -28,7 +28,6 @@ function formatDate(timestamp) {
   
   let dayText = days[date.getDay()];
   let day = date.getDate();
-  console.log(day)
   let month = months[date.getMonth()];
   let formattedDate = `${day} ${month}, ${dayText}`;
   let dateSelected = document.querySelector("#selection-details-1");
@@ -43,10 +42,10 @@ function formatHours(timestamp, timezone) {
   let hours = date.getUTCHours() + timezone;
   console.log(hours)
 
-  if(hours >= 24) {
+  if(hours > 23) {
     hours = hours - 24;
     timestampFixDate = timestampFixDate + 1000*60*60*24;
-    console.log(timestampFixDate)
+    console.log("ciao")
   }
 
   if(hours <= 0) {
@@ -155,7 +154,7 @@ function getForecast(city) {
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = null;
 
-  for (let i=1; i<6; i++){
+  for (let i=1; i<7; i++){
 
     forecastElement.innerHTML += `
                   <div class="row align-items-center">
@@ -165,8 +164,9 @@ function getForecast(city) {
                   <div class="col-2 text-center">
                     <img class="left-icon" src= "http://openweathermap.org/img/wn/${city.data.list[i].weather[0].icon}@2x.png" alt=${city.data.list[i].weather[0].description} width="50"/>
                   </div>
-                  <div class="col-6 text-right">
-                    ${Math.round(city.data.list[i].main.feels_like)} °C</span>
+                  <div class="col-6 text-right" id="forecast-temperature">
+                    <span class="forecast-temp">
+                      ${Math.round(city.data.list[i].main.feels_like)} </span><span class="unit-forecast"> °C</span>
                   </div>            
                 </div>
                 <br/>                  
@@ -233,6 +233,22 @@ function changeInCelsius(event) {
   let feelsLikeCelsius = Math.round((Number(feelsLike.innerHTML) - 32) * 5/9);
   feelsLike.innerHTML = Math.round(feelsLikeValue);
   unit.innerHTML = "°C";
+
+let forecastItems = document.querySelectorAll(".forecast-temp");
+let forecastUnits = document.querySelectorAll(".unit-forecast");
+
+forecastItems.forEach(function (item) {
+  let forecastTemp = item.innerHTML;
+  item.innerHTML = Math.round(((forecastTemp -32) * 5) / 9)
+})
+
+forecastUnits.forEach(function (item) {
+  let forecastUnit = item.innerHTML;
+  item.innerHTML = "°C";
+})
+
+celsius.removeEventListener("click", changeInCelsius);
+fahrenheit.addEventListener("click", changeInFahrenheit);
 }
 
 function changeInFahrenheit(event) {
@@ -243,7 +259,23 @@ function changeInFahrenheit(event) {
   temperature.innerHTML = `${temperatureFahrenheit}`
   let feelsLikeFahrenheit = Math.round((Number(feelsLikeValue) * 9/5) + 32);
   feelsLike.innerHTML = `${feelsLikeFahrenheit}`;
-  unit.innerHTML = "°F";
+  unit.innerHTML = " °F";
+
+  let forecastItems = document.querySelectorAll(".forecast-temp");
+  let forecastUnits = document.querySelectorAll(".unit-forecast");
+
+  forecastItems.forEach(function (item) {
+    let forecastTemp = item.innerHTML;
+    item.innerHTML = Math.round((forecastTemp * 9) / 5 + 32);
+  });
+
+  forecastUnits.forEach(function (item) {
+    let forecastUnit = item.innerHTML;
+    item.innerHTML = " °F";
+  })
+
+  celsius.addEventListener("click", changeInCelsius);
+  fahrenheit.removeEventListener("click", changeInFahrenheit);
 }
 
 celsius.addEventListener("click", changeInCelsius);
