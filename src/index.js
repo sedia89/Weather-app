@@ -40,16 +40,15 @@ function formatHours(timestamp, timezone) {
   let timestampFixDate = timestamp;
 
   let hours = date.getUTCHours() + timezone;
+  
   console.log(hours)
-
   if(hours > 23) {
     hours = hours - 24;
     timestampFixDate = timestampFixDate + 1000*60*60*24;
-    console.log("ciao")
   }
 
   if(hours <= 0) {
-    hours = 24 - hours;
+    hours = 24 + hours;
     timestampFixDate = timestampFixDate - 1000*60*60*24;
   }
   
@@ -62,7 +61,6 @@ function formatHours(timestamp, timezone) {
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
-  
   console.log(timestampFixDate);
   formatDate(timestampFixDate);
   
@@ -154,7 +152,7 @@ function getForecast(city) {
   let forecastElement = document.querySelector("#forecast");
   forecastElement.innerHTML = null;
 
-  for (let i=1; i<7; i++){
+  for (let i=1; i<6; i++){
 
     forecastElement.innerHTML += `
                   <div class="row align-items-center">
@@ -173,8 +171,8 @@ function getForecast(city) {
     `
   }
 
-  formatHours(city.data.list[0].dt * 1000, city.data.city.timezone / 3600);
-
+ let firstTimestamp = city.data.list[0].dt * 1000 - 1000*60*60
+ formatHours(firstTimestamp, city.data.city.timezone / 3600);
 }
 
 //Getting the weather by clicking on one of the city on the top
